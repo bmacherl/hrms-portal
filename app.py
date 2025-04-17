@@ -36,7 +36,8 @@ if email:
 
         if st.sidebar.button("Attendance") and role in ["student", "professor", "admin"]:
             st.subheader("📆 Attendance")
-            st.write("Attendance dashboard coming soon!")
+            
+            attendance_option = st.radio("Choose an option:", ["Show Attendance for Now", "View Course-wise Attendance"])
 
         if st.sidebar.button("Payroll") and role in ["staff", "payroll_admin", "admin"]:
             st.subheader("💵 Payroll")
