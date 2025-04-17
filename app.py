@@ -39,7 +39,7 @@ if email:
 
         # ---- Attendance Section ----
         if menu == "Attendance":
-            if role in ["student", "professor"]:
+            if role == "student":  # ✅ Only student
                 st.subheader("📆 Attendance")
 
                 attendance_option = st.radio("Choose an option:", ["Show Attendance for Now", "View Course-wise Attendance"])
