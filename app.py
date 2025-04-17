@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # ---- Page settings ----
 st.set_page_config(page_title="HRMS Portal", layout="wide")
@@ -38,31 +39,49 @@ if email:
             st.subheader("📆 Attendance")
 
             attendance_option = st.radio("Choose an option:", ["Show Attendance for Now", "View Course-wise Attendance"])
-             if attendance_option == "Show Attendance for Now":
-                     view_type = st.radio("View by:", ["Day-wise", "Week-wise"])
 
-                 if view_type == "Day-wise":
-                     st.info("📅 Day-wise tracking is a work in progress.")
+            if attendance_option == "Show Attendance for Now":
+                view_type = st.radio("View by:", ["Day-wise", "Week-wise"])
 
-                 elif view_type == "Week-wise":
-                     st.subheader("📊 Weekly Attendance Breakdown")
+                if view_type == "Day-wise":
+                    st.info("📅 Day-wise tracking is a work in progress.")
 
-            # Sample attendance data (replace with live data from face recognition)
-                     courses = {
-                         "AI and Data Analytics": {"total_hours": 5, "classes": 2, "attended": 1},
-                         "Logistics in Supply Chain": {"total_hours": 5, "classes": 2, "attended": 2}
-                     }
+                elif view_type == "Week-wise":
+                    st.subheader("📊 Weekly Attendance Breakdown")
 
-                     for course, stats in courses.items():
-                         st.markdown(f"**{course}**")
-                         attendance_ratio = stats["attended"] / stats["classes"]
-                         attended_hours = attendance_ratio * stats["total_hours"]
+                    # Sample data
+                    courses = {
+                        "AI and Data Analytics": {"total_hours": 5, "classes": 2, "attended": 1},
+                        "Logistics in Supply Chain": {"total_hours": 5, "classes": 2, "attended": 2}
+                    }
 
-                         st.write(f"Total Hours: {stats['total_hours']}")
-                         st.write(f"Attended Classes: {stats['attended']} / {stats['classes']}")
-                         st.write(f"Attended Hours: {attended_hours:.1f}")
+                    for course, stats in courses.items():
+                        st.markdown(f"**{course}**")
+                        attendance_ratio = stats["attended"] / stats["classes"]
+                        attended_hours = attendance_ratio * stats["total_hours"]
 
-                         st.pyplot(pie_chart(attended_hours, stats["total_hours"] - attended_hours))
+                        st.write(f"Total Hours: {stats['total_hours']}")
+                        st.write(f"Attended Classes: {stats['attended']} / {stats['classes']}")
+                        st.write(f"Attended Hours: {attended_hours:.1f}")
+
+                        st.pyplot(pie_chart(attended_hours, stats["total_hours"] - attended_hours))
+
+            elif attendance_option == "View Course-wise Attendance":
+                semester = st.selectbox("Select Semester", ["Semester 1", "Semester 2", "Semester 3"])
+
+                if semester == "Semester 1":
+                    st.warning("🕰 Semester 1 is over. Past data not available.")
+
+                elif semester == "Semester 2":
+                    sub_period = st.radio("Select Period", ["Jan–Mar", "Mar–May"])
+
+                    if sub_period == "Jan–Mar":
+                        st.warning("📅 Data not yet updated for Jan–Mar.")
+                    elif sub_period == "Mar–May":
+                        st.success("✅ Courses: AI and Data Analytics, Logistics in Supply Chain")
+
+                else:
+                    st.warning("🚧 Semester 3 has not started yet.")
 
         if st.sidebar.button("Payroll") and role in ["staff", "payroll_admin", "admin"]:
             st.subheader("💵 Payroll")
@@ -74,3 +93,14 @@ if email:
 
     else:
         st.error("Email not found. Please try again or contact admin.")
+
+# ---- Pie Chart Helper Function ----
+def pie_chart(attended, missed):
+    fig, ax = plt.subplots()
+    ax.pie([attended, missed],
+           labels=["Attended", "Missed"],
+           colors=["#4CAF50", "#F44336"],
+           startangle=90,
+           autopct="%1.1f%%")
+    ax.axis("equal")
+    return fig
