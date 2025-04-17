@@ -2,6 +2,11 @@ import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="HRMS Portal", layout="wide")
+st.image("asu_banner.jpg", use_column_width=True)
+st.markdown(
+    "<div style='text-align: center;'><img src='asu_banner.jpg' width='600'></div>",
+    unsafe_allow_html=True
+)
 st.title("MyASU-Inspired HRMS Portal")
 
 # Load users
