@@ -39,7 +39,7 @@ if email:
 
         # ---- Attendance Section ----
         if menu == "Attendance":
-            if role in ["student", "professor", "admin", "staff"]:  # Add "staff" if needed
+            if role in ["student", "professor"]:
                 st.subheader("📆 Attendance")
 
                 attendance_option = st.radio("Choose an option:", ["Show Attendance for Now", "View Course-wise Attendance"])
@@ -82,7 +82,7 @@ if email:
                     else:
                         st.warning("🚧 Semester 3 has not started yet.")
             else:
-                st.warning("You do not have permission to view attendance.")
+                st.warning("⛔ You do not have permission to view attendance.")
 
         # ---- Payroll Section ----
         if menu == "Payroll":
