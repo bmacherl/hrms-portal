@@ -27,15 +27,18 @@ if email:
         user = df_users[df_users['email'] == email].squeeze()
         st.success(f"Welcome {user['name']}! You are logged in as **{user['role']}**.")
 
-        # Sidebar navigation
+        # Sidebar menu using radio
         st.sidebar.title("📂 Menu")
+        menu = st.sidebar.radio("Navigate to:", ["Profile", "Attendance", "Payroll", "Finances"])
         role = user['role']
 
-        if st.sidebar.button("Profile"):
+        # ---- Profile Section ----
+        if menu == "Profile":
             st.subheader("👤 Profile")
             st.write(user)
 
-        if st.sidebar.button("Attendance") and role in ["student", "professor", "admin"]:
+        # ---- Attendance Section ----
+        elif menu == "Attendance" and role in ["student", "professor", "admin"]:
             st.subheader("📆 Attendance")
 
             attendance_option = st.radio("Choose an option:", ["Show Attendance for Now", "View Course-wise Attendance"])
@@ -49,7 +52,7 @@ if email:
                 elif view_type == "Week-wise":
                     st.subheader("📊 Weekly Attendance Breakdown")
 
-                    # Sample data
+                    # Sample data for visualization
                     courses = {
                         "AI and Data Analytics": {"total_hours": 5, "classes": 2, "attended": 1},
                         "Logistics in Supply Chain": {"total_hours": 5, "classes": 2, "attended": 2}
@@ -71,36 +74,37 @@ if email:
 
                 if semester == "Semester 1":
                     st.warning("🕰 Semester 1 is over. Past data not available.")
-
                 elif semester == "Semester 2":
                     sub_period = st.radio("Select Period", ["Jan–Mar", "Mar–May"])
-
                     if sub_period == "Jan–Mar":
                         st.warning("📅 Data not yet updated for Jan–Mar.")
                     elif sub_period == "Mar–May":
                         st.success("✅ Courses: AI and Data Analytics, Logistics in Supply Chain")
-
                 else:
                     st.warning("🚧 Semester 3 has not started yet.")
 
-        if st.sidebar.button("Payroll") and role in ["staff", "payroll_admin", "admin"]:
+        # ---- Payroll Section ----
+        elif menu == "Payroll" and role in ["staff", "payroll_admin", "admin"]:
             st.subheader("💵 Payroll")
             st.write("Payroll summary coming soon!")
 
-        if st.sidebar.button("Finances") and role in ["student", "admin"]:
+        # ---- Finances Section ----
+        elif menu == "Finances" and role in ["student", "admin"]:
             st.subheader("🏦 Finances")
             st.write("Fee info and payments coming soon!")
 
     else:
         st.error("Email not found. Please try again or contact admin.")
 
-# ---- Pie Chart Helper Function ----
+# ---- Pie Chart Helper ----
 def pie_chart(attended, missed):
     fig, ax = plt.subplots()
-    ax.pie([attended, missed],
-           labels=["Attended", "Missed"],
-           colors=["#4CAF50", "#F44336"],
-           startangle=90,
-           autopct="%1.1f%%")
+    ax.pie(
+        [attended, missed],
+        labels=["Attended", "Missed"],
+        colors=["#4CAF50", "#F44336"],
+        startangle=90,
+        autopct="%1.1f%%"
+    )
     ax.axis("equal")
     return fig
