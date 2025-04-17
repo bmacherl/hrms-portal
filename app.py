@@ -39,7 +39,7 @@ if email:
 
         # ---- Attendance Section ----
         if menu == "Attendance":
-            if role == "student":  # ✅ Only student
+            if role == "Student":  # ✅ Checking exactly as written in the CSV
                 st.subheader("📆 Attendance")
 
                 attendance_option = st.radio("Choose an option:", ["Show Attendance for Now", "View Course-wise Attendance"])
@@ -86,7 +86,7 @@ if email:
 
         # ---- Payroll Section ----
         if menu == "Payroll":
-            if role in ["staff", "payroll_admin", "admin"]:
+            if role in ["Staff", "Payroll_Admin", "Admin"]:
                 st.subheader("💵 Payroll")
                 st.write("Payroll summary coming soon!")
             else:
@@ -94,7 +94,7 @@ if email:
 
         # ---- Finances Section ----
         if menu == "Finances":
-            if role in ["student", "admin"]:
+            if role in ["Student", "Admin"]:
                 st.subheader("🏦 Finances")
                 st.write("Fee info and payments coming soon!")
             else:
