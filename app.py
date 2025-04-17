@@ -36,8 +36,33 @@ if email:
 
         if st.sidebar.button("Attendance") and role in ["student", "professor", "admin"]:
             st.subheader("📆 Attendance")
-            
+
             attendance_option = st.radio("Choose an option:", ["Show Attendance for Now", "View Course-wise Attendance"])
+            if attendance_option == "Show Attendance for Now":
+        view_type = st.radio("View by:", ["Day-wise", "Week-wise"])
+
+        if view_type == "Day-wise":
+            st.info("📅 Day-wise tracking is a work in progress.")
+
+        elif view_type == "Week-wise":
+            st.subheader("📊 Weekly Attendance Breakdown")
+
+            # Sample attendance data (replace with live data from face recognition)
+            courses = {
+                "AI and Data Analytics": {"total_hours": 5, "classes": 2, "attended": 1},
+                "Logistics in Supply Chain": {"total_hours": 5, "classes": 2, "attended": 2}
+            }
+
+            for course, stats in courses.items():
+                st.markdown(f"**{course}**")
+                attendance_ratio = stats["attended"] / stats["classes"]
+                attended_hours = attendance_ratio * stats["total_hours"]
+
+                st.write(f"Total Hours: {stats['total_hours']}")
+                st.write(f"Attended Classes: {stats['attended']} / {stats['classes']}")
+                st.write(f"Attended Hours: {attended_hours:.1f}")
+
+                st.pyplot(pie_chart(attended_hours, stats["total_hours"] - attended_hours))
 
         if st.sidebar.button("Payroll") and role in ["staff", "payroll_admin", "admin"]:
             st.subheader("💵 Payroll")
