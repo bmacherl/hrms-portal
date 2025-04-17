@@ -38,7 +38,7 @@ if email:
             st.subheader("📆 Attendance")
 
             attendance_option = st.radio("Choose an option:", ["Show Attendance for Now", "View Course-wise Attendance"])
-                 if attendance_option == "Show Attendance for Now":
+             if attendance_option == "Show Attendance for Now":
                      view_type = st.radio("View by:", ["Day-wise", "Week-wise"])
 
                  if view_type == "Day-wise":
